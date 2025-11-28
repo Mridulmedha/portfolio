@@ -37,9 +37,10 @@ revealTargets.forEach(t=>revealObserver.observe(t));
 /* Simple typewriter for hero */
 const typeEl = document.querySelector('.typewriter');
 const typePhrases = [
-  'Building web apps — front-end, back-end, and APIs',
-  'Working on IoT projects, data flows and integrations',
-  'Focused on reliable systems, usability and real results'
+  'Seeking internship opportunities to apply and expand my technical skills',
+  'Skilled in C++, Python, JavaScript — building practical web applications',
+  'Experienced with IoT projects — Arduino-based sensors and real-time monitoring',
+  'Passionate about problem-solving and creating clean, responsive UIs'
 ];
 let tIndex=0, cIndex=0;
 function typeWriter(){
@@ -47,9 +48,14 @@ function typeWriter(){
   const text = typePhrases[tIndex];
   if(cIndex <= text.length){
     typeEl.textContent = text.slice(0,cIndex++);
-    setTimeout(typeWriter, 42);
+    setTimeout(typeWriter, 50);
   } else {
-    setTimeout(()=>{ cIndex=0; tIndex=(tIndex+1)%typePhrases.length; typeEl.textContent=''; setTimeout(typeWriter,500); }, 1400);
+    setTimeout(()=>{ 
+      cIndex=0; 
+      tIndex=(tIndex+1)%typePhrases.length; 
+      typeEl.textContent=''; 
+      setTimeout(typeWriter,800); 
+    }, 2000);
   }
 }
 typeWriter();
