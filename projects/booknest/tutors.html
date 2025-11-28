@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookNest+ | Tutors</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      background: linear-gradient(to right, #fdfcfb, #e2d1c3);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .section-title {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 32px;
+      font-weight: 600;
+    }
+    .tutor-card img {
+      height: 220px;
+      object-fit: cover;
+    }
+    .tutor-card {
+      transition: transform 0.3s ease;
+    }
+    .tutor-card:hover {
+      transform: scale(1.03);
+    }
+    .booked-section {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: auto;
+    }
+    .badge-verified {
+      background-color: #198754;
+      color: white;
+    }
+    .rating-stars {
+      color: #ffc107;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">📚 BookNest+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+        <li class="nav-item"><a class="nav-link active" href="tutors.html">Tutors</a></li>
+        <li class="nav-item"><a class="nav-link" href="skillshare.html">Skill Share</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Section Title -->
+<h2 class="section-title mt-5 pt-4">Meet Our Trusted Tutors</h2>
+
+<!-- Search and Filter -->
+<div class="container mb-4">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <input type="text" class="form-control" placeholder="Search by name or subject" oninput="searchTutors(this.value)">
+    </div>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <div class="row g-4" id="tutorContainer"></div>
+</div>
+<!-- Tutor Profile Modal -->
+<div class="modal fade" id="tutorModal" tabindex="-1" aria-labelledby="tutorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="tutorModalLabel">Tutor Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="tutorModalBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="bookingModalLabel">Book a Session</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="bookingForm">
+        <div class="modal-body">
+          <p><strong id="selectedTutorName"></strong></p>
+          <div class="mb-3">
+            <label for="studentName" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="studentName" required />
+          </div>
+          <div class="mb-3">
+            <label for="sessionDate" class="form-label">Preferred Date</label>
+            <input type="date" class="form-control" id="sessionDate" required />
+          </div>
+          <div class="mb-3">
+            <label for="notes" class="form-label">Any Notes</label>
+            <textarea class="form-control" id="notes" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Submit Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- My Booked Tutors Section -->
+<div class="container booked-section" id="bookedSection" style="display:none;">
+  <h4 class="text-center mb-4">📅 My Booked Tutors</h4>
+  <div class="row g-4" id="bookedTutorsContainer"></div>
+</div>
+
+<!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+  <div id="toastSuccess" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">
+        ✅ Booking confirmed!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 BookNest+. All rights reserved.
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const tutors = [
+    {
+      name: "Ms. Anshika",
+      subject: "Mathematics Expert",
+      img: "images/anshika.jpeg",
+      experience: "10+ yrs experience in JEE prep",
+      bio: "An IIT graduate helping students crack competitive exams.",
+      rating: 5,
+      verified: true
+    },
+    {
+      name: "Ms. Sriti Jha",
+      subject: "English Literature & Grammar",
+      img: "images/sriti.jpg",
+      experience: "5+ years of personalized teaching",
+      bio: "Passionate about grammar and poetry.",
+      rating: 4,
+      verified: true
+    },
+    {
+      name: "Ms. Medha",
+      subject: "Science Coach",
+      img: "images/medha.jpeg",
+      experience: "7 years of hands-on science teaching",
+      bio: "Medha inspires curiosity with experiments.",
+      rating: 4.5,
+      verified: false
+    },
+    {
+      name: "Mr. Ashutosh",
+      subject: "Coding & Tech Fundamentals",
+      img: "images/ASHU_IMG.jpg",
+      experience: "4 years mentoring kids in coding",
+      bio: "Ashutosh makes coding fun through projects.",
+      rating: 4,
+      verified: true
+    }
+  ];
+
+  function renderStars(rating) {
+    const full = Math.floor(rating);
+    const half = rating % 1 >= 0.5 ? 1 : 0;
+    const empty = 5 - full - half;
+    return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+  }
+
+  function renderTutors(filter = '') {
+    const container = document.getElementById("tutorContainer");
+    container.innerHTML = '';
+
+    tutors.filter(t => {
+      return t.name.toLowerCase().includes(filter.toLowerCase()) ||
+             t.subject.toLowerCase().includes(filter.toLowerCase());
+    }).forEach((tutor, index) => {
+      const col = document.createElement("div");
+      col.className = "col-lg-3 col-md-6 col-sm-12";
+      col.innerHTML = `
+        <div class="card tutor-card h-100" data-subject="${tutor.subject}">
+          <img src="${tutor.img}" class="card-img-top" alt="${tutor.name}">
+          <div class="card-body text-center">
+            <h5 class="card-title">${tutor.name}</h5>
+            <p class="card-text">${tutor.subject}</p>
+            ${tutor.verified ? '<span class="badge badge-verified mb-2">✔ Verified</span><br>' : ''}
+            <p class="rating-stars">${renderStars(tutor.rating)}</p>
+            <button class="btn btn-outline-primary btn-sm" onclick="showTutorDetails(${index})">View Profile</button>
+          </div>
+        </div>`;
+      container.appendChild(col);
+    });
+  }
+
+  function searchTutors(query) {
+    renderTutors(query);
+  }
+
+  renderTutors();
+
+  function showTutorDetails(index) {
+    const tutor = tutors[index];
+    currentTutor = tutor;
+    document.getElementById("tutorModalBody").innerHTML = `
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <img src="${tutor.img}" alt="${tutor.name}" class="img-fluid rounded mb-3">
+        </div>
+        <div class="col-md-8">
+          <h4>${tutor.name}</h4>
+          <p><strong>Subject:</strong> ${tutor.subject}</p>
+          <p><strong>Experience:</strong> ${tutor.experience}</p>
+          <p>${tutor.bio}</p>
+          <button class="btn btn-success btn-sm mt-2" onclick="openBookingForm('${tutor.name}')">📅 Book a Session</button>
+        </div>
+      </div>`;
+    new bootstrap.Modal(document.getElementById("tutorModal")).show();
+  }
+
+  function openBookingForm(name) {
+    document.getElementById("selectedTutorName").textContent = `Booking for: ${name}`;
+    new bootstrap.Modal(document.getElementById("bookingModal")).show();
+  }
+
+  bookingForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const studentName = document.getElementById("studentName").value.trim();
+    const sessionDate = document.getElementById("sessionDate").value;
+    const notes = document.getElementById("notes").value.trim();
+
+    if (bookings.some(b => b.tutor === currentTutor.name && b.date === sessionDate)) {
+      alert("You’ve already booked this tutor on that date.");
+      return;
+    }
+
+    bookings.push({
+      tutor: currentTutor.name,
+      subject: currentTutor.subject,
+      img: currentTutor.img,
+      date: sessionDate,
+      student: studentName,
+      notes
+    });
+
+    localStorage.setItem("bookedTutors", JSON.stringify(bookings));
+    renderBookedTutors();
+    bookingForm.reset();
+    bootstrap.Modal.getInstance(document.getElementById("bookingModal")).hide();
+    toast.show();
+  });
+
+  function renderBookedTutors() {
+    bookedTutorsContainer.innerHTML = "";
+
+    if (bookings.length === 0) {
+      bookedSection.style.display = "none";
+      return;
+    }
+
+    bookedSection.style.display = "block";
+
+    bookings.forEach((b, index) => {
+      const col = document.createElement("div");
+      col.className = "col-md-4";
+
+      col.innerHTML = `
+        <div class="card h-100">
+          <img src="${b.img}" class="card-img-top" alt="${b.tutor}">
+          <div class="card-body text-center">
+            <h5 class="card-title">${b.tutor}</h5>
+            <p class="card-text">${b.subject}</p>
+            <p><strong>Date:</strong> ${b.date}</p>
+            <p><strong>Notes:</strong> ${b.notes || "—"}</p>
+            <button class="btn btn-danger btn-sm" onclick="cancelBooking(${index})">❌ Cancel</button>
+          </div>
+        </div>
+      `;
+      bookedTutorsContainer.appendChild(col);
+    });
+  }
+
+  function cancelBooking(index) {
+    bookings.splice(index, 1);
+    localStorage.setItem("bookedTutors", JSON.stringify(bookings));
+    renderBookedTutors();
+  }
+
+  renderTutors();
+  renderBookedTutors();
+</script>
+</body>
+</html>

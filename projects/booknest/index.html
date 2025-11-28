@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookNest+ | Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">📚 BookNest+</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarMain">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+          <li class="nav-item"><a class="nav-link" href="tutors.html">Tutors</a></li>
+          <li class="nav-item"><a class="nav-link" href="skillshare.html">Skill Share</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <button class="btn btn-sm btn-outline-light me-2 mt-1" onclick="toggleTheme()">🌓</button>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero pt-5 mt-4">
+    <div class="container text-center">
+      <h1 class="hero-title">Welcome to BookNest+</h1>
+      <p class="hero-subtitle">Discover books, connect with tutors, and grow your skills — all in one place.</p>
+      <a href="books.html" class="btn btn-primary mt-3">Browse Books</a>
+    </div>
+  </section>
+
+  <!-- Search Section -->
+  <section class="py-4 bg-light">
+    <div class="container text-center">
+      <input type="text" class="form-control w-75 mx-auto" placeholder="🔍 Search books, authors, topics...">
+    </div>
+  </section>
+
+  <!-- Carousel -->
+  <div id="bookCarousel" class="carousel slide mb-2" data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="hover">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="images/bestbooks.jpg" class="d-block w-100" alt="Best Books" style="height: 450px; object-fit: cover;">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5 class="text-white">Explore Bestsellers 📚</h5>
+          <p class="text-white">Top-rated books of the year</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="images/authors.jpg" class="d-block w-100" alt="Authors" style="height: 450px; object-fit: cover;">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5 class="text-white">Author Spotlight ✍️</h5>
+          <p class="text-white">Get to know your favorite authors</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="images/newbooks.png" class="d-block w-100" alt="New Books" style="height: 450px; object-fit: cover;">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5 class="text-white">New Arrivals 🚀</h5>
+          <p class="text-white">Fresh stories added weekly!</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+    </button>
+  </div>
+
+  <!-- Core Features -->
+  <div class="container py-4">
+    <h2 class="section-title">What Can You Do on BookNest+?</h2>
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card service-card h-100 text-center">
+          <img src="images/books.jpg" class="card-img-top" alt="Books">
+          <div class="card-body">
+            <h5 class="card-title">📚 Age-based Books</h5>
+            <p class="card-text">Find perfect reads for every age and interest.</p>
+            <a href="books.html" class="btn btn-outline-primary btn-sm">Explore Books</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card service-card h-100 text-center">
+          <img src="images/tutor.webp" class="card-img-top" alt="Tutors">
+          <div class="card-body">
+            <h5 class="card-title">🎓 Expert Tutors</h5>
+            <p class="card-text">Learn from qualified, verified subject experts.</p>
+            <a href="tutors.html" class="btn btn-outline-primary btn-sm">Meet Tutors</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card service-card h-100 text-center">
+          <img src="images/skill.jpg" class="card-img-top" alt="Skill Share">
+          <div class="card-body">
+            <h5 class="card-title">🛠️ Student Skill Exchange</h5>
+            <p class="card-text">Collaborate & exchange skills with other students.</p>
+            <a href="skillshare.html" class="btn btn-outline-primary btn-sm">Join Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter CTA -->
+  <section class="py-5 text-white" style="background: linear-gradient(to right, #4a00e0, #8e2de2);">
+    <div class="container text-center">
+      <h4 class="mb-3">📬 Stay Updated with BookNest+</h4>
+      <form class="d-flex flex-column flex-md-row justify-content-center gap-2">
+        <input type="email" class="form-control w-50" placeholder="Enter your email" required>
+        <button class="btn btn-light">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <div class="container py-5">
+    <h3 class="section-title">What Our Users Say</h3>
+    <div class="row g-4">
+      <div class="col-md-4"><div class="card p-3 shadow-sm"><p>“BookNest+ made bedtime reading fun for my kids!”</p><strong>- Aditi Mehra</strong></div></div>
+      <div class="col-md-4"><div class="card p-3 shadow-sm"><p>“Found a great coding tutor. Now I’m building my own game!”</p><strong>- Rahul, Class 10</strong></div></div>
+      <div class="col-md-4"><div class="card p-3 shadow-sm"><p>“I earn teaching guitar! Love the skill share community.”</p><strong>- Mehak, Student</strong></div></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="container text-center my-5">
+    <div class="row">
+      <div class="col-md-3"><h4>10K+</h4><p>Books Listed</p></div>
+      <div class="col-md-3"><h4>1.5K+</h4><p>Expert Tutors</p></div>
+      <div class="col-md-3"><h4>5K+</h4><p>Skill Sessions</p></div>
+      <div class="col-md-3"><h4>100%</h4><p>User Satisfaction</p></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white pt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h5>About</h5>
+          <ul class="list-unstyled text-white-50">
+            <li><a href="about.html">Our Story</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Explore</h5>
+          <ul class="list-unstyled text-white-50">
+            <li><a href="books.html">Books</a></li>
+            <li><a href="tutors.html">Tutors</a></li>
+            <li><a href="skillshare.html">Skill Share</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Account</h5>
+          <ul class="list-unstyled text-white-50">
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="cart.html">Cart</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Connect</h5>
+          <p class="text-white-50">Email: support@booknest.com<br>Phone: +91-99999-88888</p>
+        </div>
+      </div>
+      <hr class="bg-secondary">
+      <div class="text-center pb-3">&copy; 2025 BookNest+. All rights reserved.</div>
+    </div>
+  </footer>
+
+<script>
+  function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookNest+ | Wishlist</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    body > .container,
+    body > main {
+      flex: 1;
+    }
+    body {
+      background: linear-gradient(to right, #fff1eb, #ace0f9);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .section-title {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 32px;
+      font-weight: 600;
+    }
+    .wishlist-item-card img {
+      height: 200px;
+      object-fit: cover;
+    }
+    .btn-remove {
+      font-size: 0.85rem;
+    }
+    #emptyState img {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="#">📚 BookNest+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link active" href="wishlist.html">Wishlist</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html">👤 Profile</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Heading -->
+<h2 class="section-title mt-5 pt-4">❤️ Your Wishlist</h2>
+
+<!-- Empty Wishlist Message -->
+<div class="container py-5 text-center" id="emptyState" style="display: none;">
+  <img src="images/empty_cart.jpeg" alt="Empty Wishlist" class="img-fluid mb-4" style="max-width: 200px;">
+  <h3 class="text-muted">No favorites yet!</h3>
+  <p class="mb-4">Browse and add books to your wishlist.</p>
+  <a href="books.html" class="btn btn-primary mx-1">Browse Books</a>
+  <a href="profile.html" class="btn btn-outline-secondary mx-1">👤 Go to Profile</a>
+</div>
+
+<!-- Wishlist Items -->
+<div class="container py-5" id="wishlistContainer"></div>
+
+<!-- Footer -->
+<footer>
+  &copy; 2025 BookNest+. All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  const wishlistContainer = document.getElementById("wishlistContainer");
+  const emptyState = document.getElementById("emptyState");
+
+  function renderWishlist() {
+    if (wishlist.length === 0) {
+      wishlistContainer.style.display = "none";
+      emptyState.style.display = "block";
+      return;
+    }
+
+    wishlistContainer.innerHTML = '<h3 class="mb-4">Saved Books</h3><div class="row g-4">';
+    wishlist.forEach((book, index) => {
+      wishlistContainer.innerHTML += `
+        <div class="col-md-4">
+          <div class="card wishlist-item-card h-100">
+            <img src="${book.img}" class="card-img-top" alt="${book.title}">
+            <div class="card-body">
+              <h5 class="card-title">${book.title}</h5>
+              <p class="card-text">${book.desc}</p>
+              <button class="btn btn-danger btn-sm" onclick="removeFromWishlist(${index})">Remove</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    wishlistContainer.innerHTML += '</div>';
+  }
+
+  function removeFromWishlist(index) {
+    wishlist.splice(index, 1);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    renderWishlist();
+  }
+
+  renderWishlist();
+</script>
+</body>
+</html>

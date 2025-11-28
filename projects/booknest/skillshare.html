@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookNest+ | Skill Share</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(to right, #f3f9ff, #e4d9ff);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .section-title {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 32px;
+      font-weight: 600;
+    }
+    .skill-card img {
+      height: 220px;
+      object-fit: cover;
+    }
+    .skill-card .btn {
+      margin-top: 8px;
+    }
+    .skill-card {
+      transition: transform 0.3s ease;
+    }
+    .skill-card:hover {
+      transform: scale(1.03);
+    }
+    .joined-section {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="#">📚 BookNest+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+        <li class="nav-item"><a class="nav-link" href="tutors.html">Tutors</a></li>
+        <li class="nav-item"><a class="nav-link active" href="skillshare.html">Skill Share</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Section Title -->
+<h2 class="section-title mt-5 pt-4">Learn & Share Skills</h2>
+
+<!-- Skill Cards Section -->
+<div class="container mb-5" id="skillsContainer"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="skillModal" tabindex="-1" aria-labelledby="skillModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="skillModalLabel">Join Skill Session</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="skillModalBody">
+        <!-- JS will inject content -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- My Joined Skills -->
+<div class="container joined-section" id="joinedSkillsSection" style="display:none;">
+  <h4 class="text-center mb-4">⭐ My Joined Skills</h4>
+  <div class="row g-4" id="joinedSkillsContainer"></div>
+</div>
+
+<!-- Footer -->
+<footer>
+  &copy; 2025 BookNest+. All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const skillsData = [
+    { title: "Creative Writing", desc: "Unleash your storytelling with guided writing sessions.", img: "images/skillshare1.jpg" },
+    { title: "Public Speaking", desc: "Overcome stage fear and build confidence.", img: "images/skillshare2.jpg" },
+    { title: "Basic Coding", desc: "Learn to code games and apps with simple logic.", img: "images/skillshare3.jpg" },
+    { title: "Photography Hacks", desc: "Master mobile photography tricks & techniques.", img: "images/skillshare4.jpeg" },
+    { title: "Craft & Origami", desc: "Turn paper and scrap into magical models.", img: "images/skillshare5.jpeg" }
+  ];
+
+  const container = document.getElementById("skillsContainer");
+  const skillModal = new bootstrap.Modal(document.getElementById("skillModal"));
+  const skillModalBody = document.getElementById("skillModalBody");
+
+  let joinedSkills = JSON.parse(localStorage.getItem("joinedSkills")) || [];
+
+  function renderSkills() {
+    const row = document.createElement("div");
+    row.className = "row g-4";
+
+    skillsData.forEach((skill, index) => {
+      const col = document.createElement("div");
+      col.className = "col-lg-4 col-md-6 col-sm-12";
+
+      col.innerHTML = `
+        <div class="card skill-card h-100">
+          <img src="${skill.img}" class="card-img-top" alt="${skill.title}">
+          <div class="card-body text-center">
+            <h5 class="card-title">${skill.title}</h5>
+            <p class="card-text">${skill.desc}</p>
+            <button class="btn btn-outline-primary btn-sm" onclick="joinSkill(${index})">Join Now</button>
+          </div>
+        </div>
+      `;
+      row.appendChild(col);
+    });
+
+    container.appendChild(row);
+  }
+
+  function joinSkill(index) {
+    const skill = skillsData[index];
+
+    const alreadyJoined = joinedSkills.some(s => s.title === skill.title);
+
+    if (alreadyJoined) {
+      skillModalBody.innerHTML = `
+        <p><strong>${skill.title}</strong></p>
+        <p class="text-danger">You have already joined this session.</p>
+        <p>🎉 See all your joined skills at the bottom.</p>
+      `;
+    } else {
+      joinedSkills.push(skill);
+      localStorage.setItem("joinedSkills", JSON.stringify(joinedSkills));
+
+      skillModalBody.innerHTML = `
+        <p><strong>Skill:</strong> ${skill.title}</p>
+        <p>${skill.desc}</p>
+        <p>✨ We’ll connect you with a mentor soon. Stay tuned!</p>
+      `;
+
+      renderJoinedSkills(); // update view
+    }
+
+    skillModal.show();
+  }
+
+  function renderJoinedSkills() {
+    const section = document.getElementById("joinedSkillsSection");
+    const container = document.getElementById("joinedSkillsContainer");
+    container.innerHTML = "";
+
+    if (joinedSkills.length === 0) {
+      section.style.display = "none";
+      return;
+    }
+
+    section.style.display = "block";
+
+    joinedSkills.forEach((skill, index) => {
+      const col = document.createElement("div");
+      col.className = "col-md-4";
+
+      col.innerHTML = `
+        <div class="card h-100">
+          <img src="${skill.img}" class="card-img-top" alt="${skill.title}">
+          <div class="card-body text-center">
+            <h5 class="card-title">${skill.title}</h5>
+            <p class="card-text">${skill.desc}</p>
+            <button class="btn btn-danger btn-sm" onclick="removeSkill(${index})">❌ Leave Session</button>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(col);
+    });
+  }
+
+  function removeSkill(index) {
+    joinedSkills.splice(index, 1);
+    localStorage.setItem("joinedSkills", JSON.stringify(joinedSkills));
+    renderJoinedSkills();
+  }
+
+  renderSkills();
+  renderJoinedSkills();
+</script>
+</body>
+</html>

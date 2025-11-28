@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookNest+ | Cart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    body > .container,
+    body > main {
+      flex: 1;
+    }
+    body {
+      background: linear-gradient(to right, #fff1eb, #ace0f9);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .section-title {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 32px;
+      font-weight: 600;
+    }
+    .cart-item-card img {
+      height: 200px;
+      object-fit: cover;
+    }
+    .btn-remove {
+      font-size: 0.85rem;
+    }
+    #emptyState img {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">📚 BookNest+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+        <li class="nav-item"><a class="nav-link active" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link" href="wishlist.html">Wishlist</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html">👤 Profile</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Heading -->
+<h2 class="section-title mt-5 pt-4">🛒 Your Cart</h2>
+
+<!-- Empty Cart Message -->
+<div class="container py-5 text-center" id="emptyState" style="display: none;">
+  <img src="images/empty_cart.jpeg" alt="Empty Cart" class="img-fluid mb-4" style="max-width: 200px;">
+  <h3 class="text-muted">Oops! Your cart is empty</h3>
+  <p class="mb-4">Looks like you haven’t added anything yet.</p>
+  <a href="books.html" class="btn btn-primary mx-1">Browse Books</a>
+  <a href="profile.html" class="btn btn-outline-secondary mx-1">👤 Go to Profile</a>
+</div>
+
+<!-- Cart Items Section -->
+<div class="container py-5" id="cartItems"></div>
+
+<!-- Footer -->
+<footer>
+  &copy; 2025 BookNest+. All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const cartContainer = document.getElementById("cartItems");
+  const emptyState = document.getElementById("emptyState");
+
+  let cart = [];
+  try {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+  } catch (e) {
+    cart = [];
+  }
+
+  function renderCart() {
+    if (cart.length === 0) {
+      cartContainer.style.display = "none";
+      emptyState.style.display = "block";
+      return;
+    }
+
+    let html = '<h3 class="mb-4">Your Cart Books</h3><div class="row g-4">';
+    cart.forEach((book, index) => {
+      html += `
+        <div class="col-md-4">
+          <div class="card cart-item-card h-100">
+            <img src="${book.img}" class="card-img-top" alt="${book.title}">
+            <div class="card-body">
+              <h5 class="card-title">${book.title}</h5>
+              <p class="card-text">${book.desc}</p>
+              <button class="btn btn-danger btn-sm" onclick="removeFromCart(${index})">Remove</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    html += '</div>';
+
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    html += `
+      <div class="mt-4 text-end">
+        <h5>Total: ₹${total}</h5>
+      </div>
+    `;
+
+    cartContainer.innerHTML = html;
+    cartContainer.style.display = "block";
+    emptyState.style.display = "none";
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+  }
+
+  renderCart();
+</script>
+</body>
+</html>
